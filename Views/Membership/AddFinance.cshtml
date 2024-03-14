@@ -1,0 +1,176 @@
+﻿@model KMCAA.ViewModels.FinanceVM
+
+@{
+    ViewData["Title"] = "AddFinance";
+}
+<div class="container-fluid px-1 py-5">
+    <div class="card bg-white" style="margin-top:-30px;">
+        <form method="post" enctype="multipart/form-data" asp-action="AddFinance">
+            <div class="card-body">
+                <div class="loaderbody" id="loaderbody">
+                    <div class="loader"></div>
+                </div>
+                <input id="misId" hidden asp-for="Id" />
+                <p class="h4" style="color:darkred">Finance Information</p>
+                <div>
+                    <div class="row ">
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Payment Method</label>
+                                <select class="form-control required" id="selectPaymentMethod" asp-for="PaymentTypeId">
+                                </select>
+                                <span class="form-text text-danger" asp-validation-for="PaymentTypeId"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Receipt No</label>
+                                <input type="text" asp-for="ReceiptNo" class="form-control" />
+                                <span class="form-text text-danger" asp-validation-for="ReceiptNo"></span>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row ">
+
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Payment Year</label>
+                                <input type="text" asp-for="PaymentYear" class="form-control" />
+                                <span class="form-text text-danger" asp-validation-for="PaymentYear"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>Payment Date</label>
+                                <input type="date" asp-for="PaymentDate" class="form-control date" />
+                                <span class="form-text text-danger" asp-validation-for="PaymentDate"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-md-6">
+                    </div>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-info btn-block">submit</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+    <div class="card card-default">
+        <div class="card-header">
+            <h3 style="color:darkred">Previous Payments Detail</h3>
+        </div>
+        <div class="card-body">
+            <table id="example" class="stripe" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Payment Method</th>
+                        <th>Payment Year</th>
+                        <th>Receipt No</th>
+                        <th>Payment Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        var PaymentTable;
+        $(document).ready(function() {
+
+
+            $.ajax({
+                type: "GET",
+                url: "/Membership/PaymentTypes",
+                data: "{}",
+                success: function(data) {
+                    var s = '<option value="">Select Payment Method</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        s += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                    }
+                    $("#selectPaymentMethod").html(s);
+                }
+            });
+            loadDataTable();
+        });
+        function loadDataTable() {
+            debugger
+            var id = $("#misId").val(),
+                PaymentTable = $('#example').DataTable({
+                    "ajax": {
+                        "url": "/Membership/getFinanceData/" + id
+                    },
+                    "columns": [
+                        { "data": "id", "width": "10%" },
+                        { "data": "typeName", "width": "20%" },
+                        { "data": "paymentYear", "width": "20%" },
+                        { "data": "receiptNo", "width": "20%" },
+                        { "data": "paymentDate", "width": "20%" },
+
+                        {
+                            "data": 'id',
+                            "render": function(data) {
+                                return `<div class="w-75 btn-group" role="group">
+                                        <a onClick=Delete('/Membership/Delete/${data}')><i class='fa fa-trash' style="color:red;"></i></a>
+                                    </div> `
+
+                            },
+                            "width": "30"
+                        },
+
+                    ],
+
+                });
+
+        }
+
+        function Delete(url) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        success: function(data) {
+                            debugger
+                            $('#example').DataTable().ajax.reload()
+                            // toastr.error(data.message, toastr.options.progressBar = true, Toast.toastr.positionClass = toast - top - center);
+                            toastr.error(data.message, 'Payment Detail', toastr.options.progressBar = true, toastr.options.positionClass = "toast-top-center");
+                        }
+                    })
+                }
+            })
+        }
+    </script>
+}
+

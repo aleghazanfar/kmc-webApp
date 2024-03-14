@@ -1,0 +1,110 @@
+﻿@model IEnumerable<KMCAA.ViewModels.MemberVM>
+
+<a hidden onclick="showInPopup('@Url.Action("AddOrEdit","Membership",null,Context.Request.Scheme)','New Member')" class="btn btn-info text-white mt-2"><i class="fas fa-plus"></i> Click here to Register</a>
+<a asp-controller="Membership" asp-action="AddOrEdit" class="btn btn-info text-white mt-2"><i class="fas fa-plus"></i> Create New Record</a>
+
+<div class="row mt-2">
+    <div class="col-md-12">
+        <div class="card card-info card-outline">
+            <div class="card-header">
+                <h3 class="card-title">
+
+                    Directiv(s)
+                </h3>
+            </div>
+            <div class="card-body pad table-responsive">
+                <div class="row">
+                    <div class="col-md-12">
+                        @if (Model.Count() > 0)
+                        {
+                            int index = 1;
+                            <table class="table table-bordered" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>Sr.#</th>
+                                        <th>Name</th>
+                                        <th>Gender</th>
+                                        <th>Present WorkPlace</th>
+                                        <th>Member ResideIn</th>
+                                        <th>Membership Type</th>
+                                        <th>Profile</th>
+                                        <th class="pl-5">Action</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td><span class="badge badge-success">@index</span></td>
+                                            <td>@item.FullName</td>
+                                            <td dir="rtl">@item.Gender</td>
+                                            <td dir="rtl">@item.PresendWorkPlance</td>
+                                            <td>
+                                                @if (item.MemberResideIn == "InPakistan")
+                                                {
+                                                    <span class="badge badge-success">@item.MemberResideIn</span>
+
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-danger">@item.MemberResideIn</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item.TypeName == "Annual Member")
+                                                {
+                                                    <span class="badge badge-info">@item.TypeName</span>
+
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-primary">@item.TypeName</span>
+                                                }
+                                            </td>
+                                             <td dir="rtl"><img src="@item.ImageUrl" class="rounded-circle mx-auto d-block" width="50" height="40" /></td>
+                                            <td align="left">
+                                                @*<a asp-route-Id="@item.Id" asp-controller="FeedBack" asp-action="Index" class="btn btn-success btn-sm">Progress</a>*@
+                                                <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this)" class="d-inline">
+                                                    <input type="hidden" asp-for="@item.Id" />
+                                                    @if (User.IsInRole("Delete"))
+                                                    {
+                                                        <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+                                                    }
+                                                </form>
+                                                <a asp-route-Id="@item.Id" asp-controller="Membership" asp-action="AddorEdit" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i>Edit</a>
+                                                @*<a onclick="showInPopup('@Url.Action("AddorEdit","Membership",new {id=item.Id},Context.Request.Scheme)','Update Directive')" class="btn btn-warning btn-sm text-white">Edit</a>*@
+                                                <a asp-route-Id="@item.Id" asp-controller="Membership" asp-action="AddFinance" class="btn btn-secondary btn-sm"><i class="fa fa-credit-card"></i> Finance</a>
+                                            </td>
+                                        </tr>
+                                        index++;
+                                    }
+
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <h1>No Record Exists</h1>
+                        }
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+
+    <script>
+        function DeleteMember(url) {
+            alert('Delete Event Fired!.....');
+
+        }
+
+    </script>
+}

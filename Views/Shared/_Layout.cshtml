@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <title>KMC AA | Online</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css" />
+    <link rel="stylesheet" href="../../plugins/toastr/toastr.css" />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css" />
+    <link rel="stylesheet" href="../../css/site.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+     <link rel="stylesheet" href="../../plugins/select2/css/select2.css" />
+</head>
+<body class="hold-transition sidebar-mini">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="../../index3.html" class="brand-link">
+                <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">KMC AA</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                    </div>
+                    <div class="info">
+                        @* @if (HttpContext.Session["UserId"].ToString() != null && HttpContext.Current.Session["UserId"].ToString() != "")
+                        {
+                        }*@
+                        <a href="#" class="d-block">Loged In</a>
+                    </div>
+                </div>
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                        with font-awesome or any other icon font library -->
+                        <li class="nav-header">Menu</li>
+                        <li class="nav-item">
+                            <a class="nav-link mr-2" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-tachometer-alt"></i> DashBoard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mr-2" asp-area="" asp-controller="Membership" asp-action="Index"><i class="fas fa-plus"></i> Members</a>
+                        </li>
+                        @*<li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Reports" asp-action="index"><i class="far fa-circle nav-icon"></i> Reports</a>
+                                </li>*@
+                        <li class="nav-item" hidden>
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-pen-alt"></i>
+                                <p>
+                                    Input Forms
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    @*  <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="far fa-circle nav-icon"></i> Home</a>*@
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Composition" asp-action="index"><i class="far fa-circle nav-icon"></i> Directives</a>
+                                </li>
+                               
+                            </ul>
+                        </li>
+
+                        <li class="nav-item" hidden>
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-cog"></i>
+                                <p>
+                                    Settings
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="PersonOrg" asp-action="Index">
+                                        <i class="far fa-circle nav-icon text-danger"></i>
+                                        <p>Department(s)</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="PersonOrg" asp-action="PersonIndex">
+                                        <i class="far fa-circle nav-icon text-warning"></i>
+                                        <p>Member(s)</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Lookup" asp-action="DesignationIndex">
+                                        <i class="far fa-circle nav-icon text-blue"></i>
+                                        <p>Designation(s)</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Lookup" asp-action="StatusIndex">
+                                        <i class="far fa-circle nav-icon text-orange"></i>
+                                        <p>Status</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Lookup" asp-action="RoleIndex">
+                                        <i class="far fa-circle nav-icon text-green"></i>
+                                        <p>Roles</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="LogOut"><i class="far fa-circle nav-icon"></i> Logout</a>
+                        </li>
+
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
+                @RenderBody()
+
+
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-block">
+                <b>Version</b> 3.2.0
+            </div>
+            <strong>Copyright &copy; 2022 <a href="#">KMC Alumnai Association</a>.</strong> All rights reserved.
+        </footer>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+    @* <script src="../../plugins/jqueryToast/toastr.min.js"></script>*@
+
+    <!-- AdminLTE App -->
+    <script src="../../dist/js/adminlte.min.js"></script>
+@*    <script src="../../lib/datatables/js/jquery.dataTables.min.js"></script>*@
+    <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="../../js/jQueryCRUDjs.js" asp-append-version="true"></script>
+    <script src="../../plugins/toastr/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../../plugins/select2/js/select2.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+    <!-- AdminLTE for demo purposes -->
+
+</body>
+</html>
